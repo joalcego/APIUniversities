@@ -3,7 +3,7 @@
 let database = require('../config/database');
 
 module.exports.findAll = function(req, res){
-	const query = 'SELECT * FROM universities';
+	const query = 'SELECT * FROM careers';
 
 	database.executeReader(query, function(result){
 		if(result.success)
@@ -17,9 +17,9 @@ module.exports.findAll = function(req, res){
 	});	
 };
 
-module.exports.getByCode = function(req, res){
-	const query = 'SELECT * FROM universities WHERE code = ?';
-	let params = [req.params.university_id];
+module.exports.getById = function(req, res){
+	const query = 'SELECT * FROM careers WHERE id = ?';
+	let params = [req.params.career_id];
 
 	database.executeReader(query, function(result){
 		if(result.success)
@@ -34,9 +34,8 @@ module.exports.getByCode = function(req, res){
 };
 
 module.exports.create = function(req, res){
-	const query = 'INSERT INTO universities (code, name, website) VALUES (?,?,?)';
-	let params = [req.body.code, req.body.name, req.body.website];
-
+	const query = 'INSERT INTO careers (id, name, description, universityCode) VALUES (now(),?,?,?)';
+	let params = [req.body.name, req.body.description, req.params.university_id];
 	database.executeNonReader(query, function(result){
 		if(result.success)
 		{
@@ -49,9 +48,9 @@ module.exports.create = function(req, res){
 	}, params);
 };
 
-module.exports.updateByCode = function(req, res){
-	const query = 'UPDATE universities SET name = ?, website = ? WHERE code = ?';
-	let params = [req.body.name, req.body.website, req.params.university_id];
+module.exports.updateById = function(req, res){
+	const query = 'UPDATE careers SET name = ?, description = ?, universityCode = ? WHERE id = ?';
+	let params = [req.body.name, req.body.description, req.params.university_id, req.params.career_id];
 
 	database.executeNonReader(query, function(result){
 		if(result.success)
@@ -65,9 +64,9 @@ module.exports.updateByCode = function(req, res){
 	}, params);
 };
 
-module.exports.deleteByCode = function(req, res){
-	const query = 'DELETE FROM universities WHERE code = ?';
-	let params = [req.params.university_id];
+module.exports.deleteById = function(req, res){
+	const query = 'DELETE FROM careers WHERE id = ?';
+	let params = [req.params.career_id];
 	
 	database.executeNonReader(query, function(result){
 		if(result.success)
