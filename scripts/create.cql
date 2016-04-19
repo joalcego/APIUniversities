@@ -16,7 +16,6 @@ CREATE TABLE careers (
 CREATE TABLE courses (
 	id UUID,
 	name VARCHAR,
-	credits INT,
 	cost DOUBLE,
 	careerId UUID,
 	PRIMARY KEY (id)
