@@ -10,7 +10,7 @@ CREATE TABLE careers (
 	name VARCHAR,
 	description VARCHAR,
 	universityCode VARCHAR,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id, universityCode)
 );
 
 CREATE TABLE courses (
@@ -18,5 +18,5 @@ CREATE TABLE courses (
 	name VARCHAR,
 	cost DOUBLE,
 	careerId UUID,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id, careerId)
 );

@@ -17,6 +17,22 @@ module.exports.findAll = function(req, res){
 	});	
 };
 
+module.exports.findByName = function(req, res){
+	const query = 'SELECT * FROM universities WHERE name = ?';
+	let params = [req.params.university_id];
+	
+	database.executeReader(query, function(result){
+		if(result.success)
+		{
+			res.json(result.data);
+		}
+		else
+		{
+			res.send(result.err);
+		}
+	});	
+};
+
 module.exports.getByCode = function(req, res){
 	const query = 'SELECT * FROM universities WHERE code = ?';
 	let params = [req.params.university_id];

@@ -3,7 +3,7 @@
 let database = require('../config/database');
 
 module.exports.findAll = function(req, res){
-	const query = 'SELECT * FROM courses WHERE careerId = ?';
+	const query = 'SELECT * FROM courses WHERE careerId = ? ALLOW FILTERING';
 	let params = [req.params.career_id];
 
 	database.executeReader(query, function(result){
@@ -19,7 +19,7 @@ module.exports.findAll = function(req, res){
 };
 
 module.exports.getById = function(req, res){
-	const query = 'SELECT * FROM courses WHERE id = ? AND careerId = ?';
+	const query = 'SELECT * FROM courses WHERE id = ? AND careerId = ? ALLOW FILTERING';
 	let params = [req.params.course_id, req.params.career_id];
 
 	database.executeReader(query, function(result){
@@ -36,7 +36,7 @@ module.exports.getById = function(req, res){
 
 module.exports.create = function(req, res){
 	const query = 'INSERT INTO courses (id, name, cost, careerId) VALUES (now(),?,?,?)';
-	let params = [req.body.name, req.body.cost, req.params.career_id];
+	let params = [req.body.name, parseFloat(req.body.cost), req.params.career_id];
 	database.executeNonReader(query, function(result){
 		if(result.success)
 		{
@@ -50,8 +50,8 @@ module.exports.create = function(req, res){
 };
 
 module.exports.updateById = function(req, res){
-	const query = 'UPDATE courses SET name = ?, cost = ?, careerId = ? WHERE id = ? AND careerId = ?';
-	let params = [req.body.name, req.body.description, req.params.university_id, req.params.course_id, req.params.career_id];
+	const query = 'UPDATE courses SET name = ?, cost = ? WHERE id = ? AND careerId = ?';
+	let params = [req.body.name, parseFloat(req.body.cost), req.params.course_id, req.params.career_id];
 
 	database.executeNonReader(query, function(result){
 		if(result.success)
