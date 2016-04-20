@@ -6,7 +6,12 @@ module.exports.client = client;
 
 module.exports.executeReader = function(query, callback, params){
 	client.execute(query, params, {prepare:true}, function(err,result){
-		if(err) return({success:false, data:err});
+		if(err) 
+		{
+			console.log(params);
+			console.log(err);
+			return({success:false, data:err});
+		}
 		var res = {success:true, data:result.rows};
 		return callback(res);
 	});
@@ -14,7 +19,12 @@ module.exports.executeReader = function(query, callback, params){
 
 module.exports.executeNonReader = function(query, callback, params){
 	client.execute(query, params, {prepare:true}, function(err,result){
-		if(err) return({success:false, data:err});
+		if(err) 
+		{
+			console.log(params);
+			console.log(err);
+			return({success:false, data:err});
+		}
 		return callback({success:true});
 	});
 };
